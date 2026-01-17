@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nginx-service-nodeport
+spec: 
+# Expose the service on a static port on each node 
+# so that we can access the service from outside the cluster 
+  type: NodePort 
+# When the node receives a request on the static port (30163) 
+# "select pods with the label 'nginx-web' & forward the request to one of them" 
+  selector: 
+    app: nginx-web 
+  ports: 
+  - nodePort: 30163 # nodePort - a static port assigned on each the node 
+    port: 8080      
+# port - port exposed internally in the cluster 
+    targetPort: 80  # targetPort - t
